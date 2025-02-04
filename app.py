@@ -4,14 +4,21 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import joblib
 import numpy as np
-
+from fastapi.middleware.cors import CORSMiddleware
 # Load your trained model and scaler
 model = joblib.load('xgboost_model.pkl')
 price_scaler = joblib.load('standard_scaler.pkl')  # Load the scaler used to standardize 'price'
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
-
+# Enable CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Adjust this to your frontend's origin for production
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 class InputData(BaseModel):
     beds: float
     baths: float
