@@ -1,3 +1,5 @@
+from fastapi.responses import JSONResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi import FastAPI
 from pydantic import BaseModel
 import joblib
@@ -8,6 +10,7 @@ model = joblib.load('xgboost_model.pkl')
 price_scaler = joblib.load('standard_scaler.pkl')  # Load the scaler used to standardize 'price'
 
 app = FastAPI()
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 class InputData(BaseModel):
     beds: float
@@ -16,23 +19,28 @@ class InputData(BaseModel):
     lot_size: float
     zip_code: int
 
-@app.get("/")
-def read_root():
-    return {"message": "Hello, World!"}
+
 
 @app.post("/predict")
 def predict(data: InputData):
-    # Prepare the input data as a numpy array
-    input_data = np.array([[data.beds, data.baths, data.size, data.lot_size, data.zip_code]])
+    try: # Prepare the input data as a numpy array
+            input_data = np.array([[data.beds, data.baths, data.size, data.lot_size, data.zip_code]])
 
-    # Make a prediction
-    prediction = model.predict(input_data).reshape(-1, 1)  # Ensure 2D shape
+            # Make a prediction
+            prediction = model.predict(input_data).reshape(-1, 1)  # Ensure 2D shape
 
-    # Create a placeholder array with the same shape as training data
-    placeholder = np.zeros((1, 6))  # Assuming 6 features were used for scaling
-    placeholder[0, -1] = prediction[0, 0]  # Place prediction in last column
+            # Create a placeholder array with the same shape as training data
+            placeholder = np.zeros((1, 6))  # Assuming 6 features were used for scaling
+            placeholder[0, -1] = prediction[0, 0]  # Place prediction in last column
 
-    # Inverse transform only the price column
-    actual_price = price_scaler.inverse_transform(placeholder)[0, -1]  # Extract real price
+            # Inverse transform only the price column
+            actual_price = price_scaler.inverse_transform(placeholder)[0, -1]  # Extract real price
 
-    return {"prediction": float(actual_price)}
+            # return {"prediction": float(actual_price)}
+            return JSONResponse(content={"prediction": actual_price})
+    except Exception as e:
+        return JSONResponse(content={"error": str(e)}, status_code=500)
+    
+@app.get("/")
+async def read_root():
+    return FileResponse("static/index.html")

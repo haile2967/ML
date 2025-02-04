@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House Price Prediction</title>
+    <style>
+        body {
+            
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 50%;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        #result {
+            font-size: 20px;
+            margin-top: 15px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>House Price Prediction</h2>
+        
+        <input type="number" id="beds" placeholder="Beds" step="0.5">
+        <input type="number" id="baths" placeholder="Baths" step="0.5">
+        <input type="number" id="size" placeholder="Size (sq ft)">
+        <input type="number" id="lot_size" placeholder="Lot Size (sq ft)">
+        <input type="number" id="zip_code" placeholder="Zip Code">
+
+        <button onclick="predictPrice()">Predict Price</button>
+
+        <p id="result"></p>
+    </div>
+
+    <script>
+        async function predictPrice() {
+            const data = {
+                beds: parseFloat(document.getElementById('beds').value),
+                baths: parseFloat(document.getElementById('baths').value),
+                size: parseFloat(document.getElementById('size').value),
+                lot_size: parseFloat(document.getElementById('lot_size').value),
+                zip_code: parseInt(document.getElementById('zip_code').value)
+            };
+
+            const response = await fetch("http://127.0.0.1:8000/predict", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+            document.getElementById('result').innerHTML = `Predicted Price: ${result.prediction.toFixed(2)}`;
+        }
+    </script>
+
+</body>
+</html>
