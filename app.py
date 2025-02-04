@@ -25,9 +25,7 @@ class InputData(BaseModel):
     size: float
     lot_size: float
     zip_code: int
-
-
-
+    
 @app.post("/predict")
 def predict(data: InputData):
     try: # Prepare the input data as a numpy array
