@@ -1,6 +1,6 @@
 
 
-# House Price Prediction API
+# House Price Prediction
 
 This FastAPI-based machine learning API predicts house prices based on various input features.
 
