@@ -11,7 +11,7 @@ This FastAPI-based machine learning API predicts house prices based on various i
 - **Interactive Web Interface**: Includes a user-friendly `index.html`.
 
 ## 🌐 Live Demo
-You can access the live API at: [House Price Prediction API](https://ml-7-nj3n.onrender.com/)
+You can access the live API at: [https://ml-7-nj3n.onrender.com/](https://ml-7-nj3n.onrender.com/)
 
 ## 📦 Installation
 
