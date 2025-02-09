@@ -1,67 +1,73 @@
-House Price Prediction API
 
-This is a FastAPI-based machine learning API that predicts house prices based on input features such as the number of bedrooms, bathrooms, size, lot size, and zip code.
-The model used for prediction is an XGBoost model trained on historical housing data.
 
-🚀 Features
+# House Price Prediction API
 
-Predict house prices using an XGBoost model
+This FastAPI-based machine learning API predicts house prices based on various input features.
 
-Uses FastAPI for API endpoints
+## 🚀 Features
+- **Prediction Model**: Utilizes an XGBoost model to predict house prices.
+- **API Framework**: Built with FastAPI for efficient API endpoints.
+- **Standardization**: Standardizes and inverse transforms price predictions using a pre-trained scaler.
+- **Interactive Web Interface**: Includes a user-friendly `index.html`.
 
-Standardizes and inverse transforms price predictions using a pre-trained scaler
+## 🌐 Live Demo
+You can access the live API at: [House Price Prediction API](https://ml-7-nj3n.onrender.com/)
 
-Includes an interactive web interface (index.html)
+## 📦 Installation
 
-📦 Installation
+### Prerequisites
+- Python 3.6 or higher
+- Git
 
-Clone the repository:
+### Steps to Install
 
-git clone [https://github.com/haile2967/ML.git]
-cd house-price-api
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/haile2967/ML.git
+   cd house-price-api
+   ```
 
-Install dependencies:
+2. **Install dependencies**:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-pip install -r requirements.txt
+3. **Start the FastAPI server**:
+   ```bash
+   uvicorn app:app --reload
+   ```
 
-Start the FastAPI server:
+4. **Open the API docs in your browser**:
+   - Interactive Docs: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+   - Alternative Docs: [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc)
 
-uvicorn app:app --reload
+## 🛠 API Endpoints
 
-Open the API docs in your browser:
+### 1. Home Page
+- **GET** `/`
+  - Serves the static `index.html` page.
 
-Interactive Docs: http://127.0.0.1:8000/docs
+### 2. Predict House Price
+- **POST** `/predict`
+  - **Request Body (JSON)**:
+    ```json
+    {
+      "beds": 3,
+      "baths": 2,
+      "size": 1500,
+      "lot_size": 5000,
+      "zip_code": 94103
+    }
+    ```
+  - **Response**:
+    ```json
+    {
+      "prediction": 750000.0
+    }
+    ```
 
-Alternative Docs: http://127.0.0.1:8000/redoc
-
-🛠 API Endpoints
-
-1. Home Page
-
-GET / → Serves the static index.html page
-
-2. Predict House Price
-
-POST /predict
-
-Request Body (JSON):
-
-{
-  "beds": 3,
-  "baths": 2,
-  "size": 1500,
-  "lot_size": 5000,
-  "zip_code": 94103
-}
-
-Response:
-
-{
-  "prediction": 750000.0
-}
-
-📂 Project Structure
-
+## 📂 Project Structure
+```
 ├── static/
 │   ├── index.html (Frontend UI)
 ├── app.py (FastAPI backend)
@@ -70,28 +76,23 @@ Response:
 ├── standard_scaler.pkl (Scaler for price transformation)
 ├── train.csv (Training data)
 ├── finalPro.ipynb (Model training notebook)
+```
 
-🛠 Dependencies
-
+## 🛠 Dependencies
 This project requires the following Python libraries:
+- `fastapi`
+- `uvicorn`
+- `numpy`
+- `pydantic`
+- `joblib`
+- `scikit-learn`
+- `xgboost`
 
-fastapi
-uvicorn
-numpy
-pydantic
-joblib
-scikit-learn
-xgboost
-
-🏗 Contributing
-
+## 🏗 Contributing
 Contributions are welcome! Please open an issue or submit a pull request.
 
-📜 License
-
+## 📜 License
 This project is licensed under the MIT License.
 
-📧 Contact
-[desu3096@gmail.com] 
-Feel free to reach out!
-
+## 📧 Contact
+Feel free to reach out at [desu3096@gmail.com](mailto:desu3096@gmail.com) for any inquiries!
